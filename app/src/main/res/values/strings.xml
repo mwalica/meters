@@ -2,4 +2,11 @@
     <string name="app_name">meters</string>
     <string name="main_screen_title">Liczniki</string>
     <string name="list_screen_title">Woda</string>
+    <string name="add_meter_reading">Add meter reading</string>
+    <string name="back_arrow">back arrow</string>
+    <string name="back_arrow_description">back arrow</string>
+    <string name="bicycle">Rower</string>
+    <string name="water">water</string>
+    <string name="text_field_value">value</string>
+    <string name="add_value">Add value</string>
 </resources>

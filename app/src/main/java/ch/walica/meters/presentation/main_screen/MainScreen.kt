@@ -14,8 +14,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
+import ch.walica.meters.domain.model.MeterCard
+import ch.walica.meters.navigation.Screen
 import ch.walica.meters.util.UiEvent
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun MainScreen(
@@ -23,7 +24,18 @@ fun MainScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val cards = listOf<String>("Rower", "Woda", "Elektryczność", "Gaz")
+    val cards = listOf<MeterCard>(
+        MeterCard(
+            name = stringResource(id = R.string.bicycle),
+            route = Screen.BicycleScreen.route,
+            img = R.drawable.bicycle
+        ),
+        MeterCard(
+            name = stringResource(R.string.water),
+            route = Screen.WaterScreen.route,
+            img = R.drawable.drop
+        )
+    )
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -36,24 +48,24 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            AppBar()
+            ScreenAppBar()
         }
 
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
             Text(text = "MainScreen")
             LazyColumn() {
-                items(cards) {meter ->
+                items(cards) { meter ->
                     Card(
                         modifier = Modifier
                             .padding(8.dp)
                             .fillMaxWidth()
                             .clickable {
-                                viewModel.onAction(MainAction.OnMeterClick(meter))
+                                viewModel.onAction(MainAction.OnMeterClick(meter.route))
                             }
                     ) {
                         Column(modifier = Modifier.padding(8.dp)) {
-                            Text(text = meter)
+                            Text(text = meter.name)
                         }
                     }
                 }
@@ -63,8 +75,8 @@ fun MainScreen(
 }
 
 @Composable
-fun AppBar() {
-    TopAppBar() {
+fun ScreenAppBar() {
+    TopAppBar(title = {
         Text(text = stringResource(R.string.main_screen_title))
-    }
+    })
 }
