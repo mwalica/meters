@@ -6,7 +6,12 @@
     <string name="back_arrow">back arrow</string>
     <string name="back_arrow_description">back arrow</string>
     <string name="bicycle">Rower</string>
-    <string name="water">water</string>
+    <string name="car">Auto</string>
+    <string name="water">Woda</string>
+    <string name="gas">Gaz</string>
+    <string name="electricity">Energia elektryczna</string>
     <string name="text_field_value">value</string>
     <string name="add_value">Add value</string>
+    <string name="meter_status">Stan licznika</string>
+    <string name="distance">Odległość</string>
 </resources>

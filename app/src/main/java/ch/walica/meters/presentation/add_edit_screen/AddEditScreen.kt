@@ -1,9 +1,9 @@
 package ch.walica.meters.presentation.add_edit_screen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,17 +13,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
+import ch.walica.meters.ui.theme.Grey
+import ch.walica.meters.ui.theme.LightGrey
 import ch.walica.meters.util.UiEvent
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -70,24 +73,71 @@ fun AddEditScreen(
         }
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
-            TextField(
-                value = viewModel.readingValue,
-                onValueChange = { str -> viewModel.onAction(AddEditAction.OnReadingValueChange(str)) },
-                label = {
-                    Text(text = stringResource(R.string.text_field_value))
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
-                )
-            )
-            Button(onClick = { dateDialogState.show() }) {
-                Text(text = "Select date")
+
+            Card(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                elevation = 0.dp,
+                shape = RoundedCornerShape(24.dp)
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    TextField(
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        value = viewModel.readingValue,
+                        onValueChange = { str ->
+                            viewModel.onAction(
+                                AddEditAction.OnReadingValueChange(
+                                    str
+                                )
+                            )
+                        },
+                        label = {
+                            Text(text = stringResource(R.string.text_field_value))
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent
+                        )
+                    )
+                    Text(
+                        text = formattedDate,
+                        style = MaterialTheme.typography.subtitle2
+                    )
+                    Button(
+                        shape = CircleShape,
+                        elevation = ButtonDefaults.elevation(0.dp, 0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        border = BorderStroke(1.dp, LightGrey),
+                        contentPadding = PaddingValues(16.dp, 8.dp),
+                        onClick = { dateDialogState.show() }) {
+                        Text(text = "Select date")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        shape = CircleShape,
+                        elevation = ButtonDefaults.elevation(0.dp, 0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        border = BorderStroke(1.dp, LightGrey),
+                        contentPadding = PaddingValues(16.dp, 8.dp),
+                        onClick = { viewModel.onAction(AddEditAction.OnAddEditMeterReadingClick) }) {
+                        Text(text = stringResource(R.string.add_value))
+                    }
+                }
             }
-            Text(text = formattedDate)
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { viewModel.onAction(AddEditAction.OnAddEditMeterReadingClick) }) {
-                Text(text = stringResource(R.string.add_value))
-            }
+
+
         }
     }
 

@@ -70,6 +70,7 @@ class AddEditViewModel @Inject constructor(
                         date = pickedDate!!
 
                     ))
+                    sendUiEvent(UiEvent.PopBackStack)
                 }
             }
         }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ch.walica.meters.navigation.Screen
 import ch.walica.meters.presentation.common.CommonAction
+import ch.walica.meters.use_case.GetMetersReadingFromType
 import ch.walica.meters.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -12,8 +13,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BicycleViewModel @Inject constructor() : ViewModel() {
+class BicycleViewModel @Inject constructor(
+    getMetersReadingFromType: GetMetersReadingFromType
+) : ViewModel() {
 
+
+    val meterReadings =  getMetersReadingFromType("Rower")
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
