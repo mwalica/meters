@@ -1,5 +1,6 @@
 package ch.walica.meters.presentation.add_edit_screen
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -8,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -21,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
+import ch.walica.meters.ui.theme.Blue
 import ch.walica.meters.ui.theme.Grey
 import ch.walica.meters.ui.theme.LightGrey
 import ch.walica.meters.util.UiEvent
@@ -53,6 +57,7 @@ fun AddEditScreen(
             when (event) {
                 is UiEvent.PopBackStack -> onPopUpBackStack()
                 is UiEvent.ShowSnackBar -> {
+                    Log.d("my_log", "AddEditScreen: snackbar")
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message,
                         actionLabel = event.action
@@ -65,6 +70,16 @@ fun AddEditScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
+        snackbarHost = { snackBarHostState ->
+
+            SnackbarHost(hostState = snackBarHostState) {
+                           Snackbar(
+                               snackbarData = it,
+                               backgroundColor = Color.White,
+                               elevation = 0.dp
+                           )
+            }
+        },
         topBar = {
             ScreenAppBar(
                 title = viewModel.meterType ?: "error",
@@ -119,7 +134,10 @@ fun AddEditScreen(
                         border = BorderStroke(1.dp, LightGrey),
                         contentPadding = PaddingValues(16.dp, 8.dp),
                         onClick = { dateDialogState.show() }) {
-                        Text(text = "Select date")
+                        Text(
+                            text = "Select date",
+                            color = Blue
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -132,7 +150,10 @@ fun AddEditScreen(
                         border = BorderStroke(1.dp, LightGrey),
                         contentPadding = PaddingValues(16.dp, 8.dp),
                         onClick = { viewModel.onAction(AddEditAction.OnAddEditMeterReadingClick) }) {
-                        Text(text = stringResource(R.string.add_value))
+                        Text(
+                            text = stringResource(R.string.add_value),
+                            color = Blue
+                        )
                     }
                 }
             }
@@ -167,10 +188,12 @@ fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
         navigationIcon = {
             IconButton(onClick = { onBackArrow() }) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.Rounded.KeyboardArrowLeft,
                     contentDescription = stringResource(R.string.back_arrow)
                 )
             }
-        }
+        },
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp
     )
 }

@@ -94,4 +94,7 @@ dependencies {
     //dataPicker
     implementation "io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
+
+    //system ui controller
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 }

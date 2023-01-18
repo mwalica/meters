@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
 import ch.walica.meters.domain.model.MeterCard
 import ch.walica.meters.navigation.Screen
+import ch.walica.meters.ui.theme.Blue
 import ch.walica.meters.ui.theme.DarkGrey
 import ch.walica.meters.ui.theme.Grey
 import ch.walica.meters.ui.theme.LightGrey
@@ -79,7 +80,7 @@ fun MainScreen(
             MeterCard(
                 name = stringResource(R.string.bicycle),
                 route = Screen.BicycleScreen.route,
-                avg = if(averageBicycle.isNaN()) 0 else averageBicycle.roundToInt() ,
+                avg = if (averageBicycle.isNaN()) 0 else averageBicycle.roundToInt(),
                 img = R.drawable.pedal_bike_300
             ),
             MeterCard(
@@ -113,9 +114,13 @@ fun MainScreen(
 
 @Composable
 fun ScreenAppBar() {
-    TopAppBar(title = {
-        Text(text = stringResource(R.string.main_screen_title))
-    })
+    TopAppBar(
+        title = {
+            Text(text = stringResource(R.string.main_screen_title))
+        },
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp
+    )
 }
 
 @Composable
@@ -140,7 +145,8 @@ fun MeterItem(meter: MeterCard, clickHandler: () -> Unit) {
             ) {
                 Text(
                     text = meter.name,
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.h5,
+                    color = Blue
                 )
                 Text(
                     text = buildAnnotatedString {
@@ -176,7 +182,7 @@ fun MeterItem(meter: MeterCard, clickHandler: () -> Unit) {
                             painter = painterResource(id = meter.img),
                             contentDescription = meter.name,
                             modifier = Modifier.size(30.dp),
-                            colorFilter = ColorFilter.tint(Grey)
+                            colorFilter = ColorFilter.tint(Blue)
                         )
                     }
                 }
