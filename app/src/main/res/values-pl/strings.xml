@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Liczniki</string>
+    <string name="main_screen_title">Liczniki</string>
+    <string name="add_meter_reading">Dodaj nowy odczyt licznika</string>
+    <string name="back_arrow">powrót</string>
+    <string name="back_arrow_description">strzałka powrotu</string>
+    <string name="bicycle">Rower</string>
+    <string name="car">Samochód</string>
+    <string name="water">Woda</string>
+    <string name="gas">Gaz</string>
+    <string name="electricity">Elektryka</string>
+    <string name="text_field_value">wartość odczytu</string>
+    <string name="add_value">Dodaj wartość</string>
+    <string name="meter_status">Stan licznika</string>
+    <string name="distance">odległość</string>
+    <string name="select_date">Wybierz datę</string>
+    <string name="cancel">Anuluj</string>
+    <string name="select">Wybierz</string>
+</resources>

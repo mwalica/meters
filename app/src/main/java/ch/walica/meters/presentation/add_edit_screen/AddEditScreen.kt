@@ -45,7 +45,7 @@ fun AddEditScreen(
     val formattedDate by remember {
         derivedStateOf {
             DateTimeFormatter
-                .ofPattern("MMMM dd yyy")
+                .ofPattern("dd MMMM yyyy")
                 .format(viewModel.pickedDate)
         }
     }
@@ -57,7 +57,6 @@ fun AddEditScreen(
             when (event) {
                 is UiEvent.PopBackStack -> onPopUpBackStack()
                 is UiEvent.ShowSnackBar -> {
-                    Log.d("my_log", "AddEditScreen: snackbar")
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message,
                         actionLabel = event.action
@@ -135,7 +134,7 @@ fun AddEditScreen(
                         contentPadding = PaddingValues(16.dp, 8.dp),
                         onClick = { dateDialogState.show() }) {
                         Text(
-                            text = "Select date",
+                            text = stringResource(R.string.select_date),
                             color = Blue
                         )
                     }
@@ -165,14 +164,14 @@ fun AddEditScreen(
     MaterialDialog(
         dialogState = dateDialogState,
         buttons = {
-            positiveButton("Set date")
-            negativeButton("Cancel")
+            positiveButton(stringResource(R.string.select))
+            negativeButton(stringResource(R.string.cancel))
         }
     ) {
         viewModel.pickedDate?.let {
             datepicker(
                 initialDate = it.toLocalDate(),
-                title = "Pick a date"
+                title = stringResource(id = R.string.select_date)
             ) {
                 viewModel.onAction(AddEditAction.OnPickedDateChanged(it))
             }

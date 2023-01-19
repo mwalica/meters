@@ -1,17 +1,19 @@
 <resources>
     <string name="app_name">meters</string>
-    <string name="main_screen_title">Liczniki</string>
-    <string name="list_screen_title">Woda</string>
+    <string name="main_screen_title">Meters</string>
     <string name="add_meter_reading">Add meter reading</string>
     <string name="back_arrow">back arrow</string>
     <string name="back_arrow_description">back arrow</string>
     <string name="bicycle">Rower</string>
-    <string name="car">Auto</string>
-    <string name="water">Woda</string>
-    <string name="gas">Gaz</string>
-    <string name="electricity">Energia elektryczna</string>
-    <string name="text_field_value">value</string>
-    <string name="add_value">Add value</string>
-    <string name="meter_status">Stan licznika</string>
-    <string name="distance">Odległość</string>
+    <string name="car">Car</string>
+    <string name="water">Water</string>
+    <string name="gas">Gas</string>
+    <string name="electricity">Electricity</string>
+    <string name="text_field_value">reading</string>
+    <string name="add_value">Add read value</string>
+    <string name="meter_status">Meter status</string>
+    <string name="distance">Distance</string>
+    <string name="select_date">Select date</string>
+    <string name="cancel">Cancel</string>
+    <string name="select">Select</string>
 </resources>
