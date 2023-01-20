@@ -16,4 +16,6 @@
     <string name="select_date">Select date</string>
     <string name="cancel">Cancel</string>
     <string name="select">Select</string>
+    <string name="text_field_error">Please enter reading value</string>
+    <string name="undo">Undo</string>
 </resources>

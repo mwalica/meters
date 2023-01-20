@@ -16,4 +16,6 @@
     <string name="select_date">Wybierz datę</string>
     <string name="cancel">Anuluj</string>
     <string name="select">Wybierz</string>
+    <string name="text_field_error">Prosze wpisać wartość odczytu licznika</string>
+    <string name="undo">Cofnij</string>
 </resources>

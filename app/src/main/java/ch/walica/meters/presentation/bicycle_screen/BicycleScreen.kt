@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ fun BicycleScreen(
     val title = stringResource(id = R.string.bicycle)
     val meterReadings = viewModel.meterReadings.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect() { event ->
@@ -49,8 +51,8 @@ fun BicycleScreen(
                 is UiEvent.Navigate -> onNavigate(event)
                 is UiEvent.ShowSnackBar -> {
                     val result = scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message,
-                        actionLabel = event.action
+                        message = event.message.asString(context),
+                        actionLabel = event.action?.asString(context)
                     )
                     if (result == SnackbarResult.ActionPerformed) {
                         viewModel.onAction(CommonAction.OnUndoMeterReadingClick)

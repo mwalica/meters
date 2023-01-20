@@ -2,6 +2,7 @@ package ch.walica.meters.presentation.bicycle_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ch.walica.meters.R
 import ch.walica.meters.domain.model.MeterReading
 import ch.walica.meters.navigation.Screen
 import ch.walica.meters.presentation.common.CommonAction
@@ -9,6 +10,7 @@ import ch.walica.meters.use_case.DeleteMeterReading
 import ch.walica.meters.use_case.GetMetersReadingFromType
 import ch.walica.meters.use_case.InsertMeterReading
 import ch.walica.meters.util.UiEvent
+import ch.walica.meters.util.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -42,8 +44,8 @@ class BicycleViewModel @Inject constructor(
                     deleteMeterReading(deletedMeterReading!!)
                     sendUiEvent(
                         UiEvent.ShowSnackBar(
-                            message = "Meter reading deleted",
-                            action = "Undo"
+                            message = UiText.StringResource(R.string.text_field_error),
+                            action = UiText.StringResource(R.string.undo)
                         )
                     )
 

@@ -7,9 +7,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ch.walica.meters.R
 import ch.walica.meters.domain.model.MeterReading
 import ch.walica.meters.use_case.InsertMeterReading
 import ch.walica.meters.util.UiEvent
+import ch.walica.meters.util.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -60,7 +62,7 @@ class AddEditViewModel @Inject constructor(
                 viewModelScope.launch {
                     if (readingValue.isBlank() || meterType.isNullOrBlank() || pickedDate == null) {
                         Log.d("my_log", "snackbar: run")
-                        sendUiEvent(UiEvent.ShowSnackBar(message = "Pleas enter reading value"))
+                        sendUiEvent(UiEvent.ShowSnackBar(message = UiText.StringResource(R.string.text_field_error)))
                         return@launch
                     }
 
