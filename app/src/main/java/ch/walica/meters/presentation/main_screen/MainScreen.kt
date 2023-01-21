@@ -29,10 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
 import ch.walica.meters.domain.model.MeterCard
 import ch.walica.meters.navigation.Screen
-import ch.walica.meters.ui.theme.Blue
-import ch.walica.meters.ui.theme.DarkGrey
-import ch.walica.meters.ui.theme.Grey
-import ch.walica.meters.ui.theme.LightGrey
+import ch.walica.meters.ui.theme.*
 import ch.walica.meters.util.UiEvent
 import kotlin.math.roundToInt
 
@@ -74,6 +71,7 @@ fun MainScreen(
         val cards = listOf<MeterCard>(
             MeterCard(
                 name = stringResource(id = R.string.car),
+                color= Green,
                 route = Screen.BicycleScreen.route,
                 img = R.drawable.car_300
             ),
@@ -85,16 +83,19 @@ fun MainScreen(
             ),
             MeterCard(
                 name = stringResource(R.string.water),
+                color = LightBlue,
                 route = Screen.BicycleScreen.route,
                 img = R.drawable.water_drop_300
             ),
             MeterCard(
                 name = stringResource(R.string.gas),
+                color = Orange,
                 route = Screen.BicycleScreen.route,
                 img = R.drawable.gas_300
             ),
             MeterCard(
                 name = stringResource(R.string.electricity),
+                color = Violet,
                 route = Screen.BicycleScreen.route,
                 img = R.drawable.electrical_services_300
             ),
@@ -169,8 +170,8 @@ fun MeterItem(meter: MeterCard, clickHandler: () -> Unit) {
             Column {
                 Card(
                     shape = CircleShape,
-                    border = BorderStroke(1.dp, LightGrey),
-                    elevation = 0.dp
+                    elevation = 0.dp,
+                    backgroundColor = meter.color
                 ) {
                     Box(
                         modifier = Modifier
@@ -182,7 +183,7 @@ fun MeterItem(meter: MeterCard, clickHandler: () -> Unit) {
                             painter = painterResource(id = meter.img),
                             contentDescription = meter.name,
                             modifier = Modifier.size(30.dp),
-                            colorFilter = ColorFilter.tint(Blue)
+                            colorFilter = ColorFilter.tint(Color.White)
                         )
                     }
                 }
