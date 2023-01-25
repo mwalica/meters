@@ -1,4 +1,4 @@
-package ch.walica.meters.presentation.bicycle_screen
+package ch.walica.meters.presentation.gas_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,13 +18,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BicycleViewModel @Inject constructor(
+class GasViewModel @Inject constructor(
     getMetersReadingFromType: GetMetersReadingFromType,
     private val deleteMeterReading: DeleteMeterReading,
     private val insertMeterReading: InsertMeterReading
 ) : ViewModel() {
 
-    val meterReadings = getMetersReadingFromType("Rower")
+    val meterReadings = getMetersReadingFromType("Gaz")
     private var deletedMeterReading: MeterReading? = null
 
     private val _uiEvent = Channel<UiEvent>()

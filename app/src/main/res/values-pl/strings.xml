@@ -18,4 +18,5 @@
     <string name="select">Wybierz</string>
     <string name="text_field_error">Prosze wpisać wartość odczytu licznika</string>
     <string name="undo">Cofnij</string>
+    <string name="delete_meter_reading_msg">Odczyt licznika usunięty</string>
 </resources>

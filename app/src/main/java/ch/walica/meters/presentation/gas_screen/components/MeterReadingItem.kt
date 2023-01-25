@@ -1,4 +1,4 @@
-package ch.walica.meters.presentation.bicycle_screen.components
+package ch.walica.meters.presentation.gas_screen.components
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -53,7 +53,7 @@ fun MeterReadingItem(meterReading: MeterReading, usage: Int, onDblClick: () -> U
                     style = MaterialTheme.typography.subtitle2
                 )
                 Text(
-                    text = "${meterReading.reading} km",
+                    text = "${meterReading.reading} m",
                     color = MaterialTheme.colors.primary,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -67,7 +67,7 @@ fun MeterReadingItem(meterReading: MeterReading, usage: Int, onDblClick: () -> U
                     style = MaterialTheme.typography.subtitle2
                 )
                 Text(
-                    text = "$usage km",
+                    text = "$usage m",
                     color = MaterialTheme.colors.primary,
                     fontWeight = FontWeight.SemiBold
                 )

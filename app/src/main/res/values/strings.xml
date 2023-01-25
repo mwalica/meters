@@ -18,4 +18,5 @@
     <string name="select">Select</string>
     <string name="text_field_error">Please enter reading value</string>
     <string name="undo">Undo</string>
+    <string name="delete_meter_reading_msg">Meter reading deleted</string>
 </resources>

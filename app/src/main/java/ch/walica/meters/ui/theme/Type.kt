@@ -1,5 +1,6 @@
 package ch.walica.meters.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -33,7 +34,6 @@ val Typography = Typography(
     body1 = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        color = DarkGrey,
     ),
     subtitle1 = TextStyle(
         color = DarkGrey,

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -42,6 +43,8 @@ fun MainScreen(
 
     val bicycleMeterReadings =
         viewModel.bicycleMeterReadings.collectAsState(initial = emptyList())
+    val gasMeterReadings =
+        viewModel.gasMeterReadings.collectAsState(initial = emptyList())
 
 
     LaunchedEffect(key1 = true) {
@@ -61,8 +64,16 @@ fun MainScreen(
     ) { paddingValues ->
 
         val averageBicycle = bicycleMeterReadings.value.mapIndexed { index, item ->
-            if (index != 0) {
-                item.reading - bicycleMeterReadings.value[index - 1].reading
+            if (index != bicycleMeterReadings.value.lastIndex) {
+                item.reading - bicycleMeterReadings.value[index + 1].reading
+            } else {
+                item.reading
+            }
+        }.average()
+
+        val averageGas = gasMeterReadings.value.mapIndexed { index, item ->
+            if (index != gasMeterReadings.value.lastIndex) {
+                item.reading - gasMeterReadings.value[index + 1].reading
             } else {
                 item.reading
             }
@@ -90,7 +101,9 @@ fun MainScreen(
             MeterCard(
                 name = stringResource(R.string.gas),
                 color = Orange,
-                route = Screen.BicycleScreen.route,
+                route = Screen.GasScreen.route,
+                avg = if (averageGas.isNaN()) 0 else averageGas.roundToInt(),
+                unit = "m3",
                 img = R.drawable.gas_300
             ),
             MeterCard(
@@ -117,7 +130,10 @@ fun MainScreen(
 fun ScreenAppBar() {
     TopAppBar(
         title = {
-            Text(text = stringResource(R.string.main_screen_title))
+            Text(
+                text = stringResource(R.string.main_screen_title),
+                color = if(isSystemInDarkTheme()) LightGray else DarkGrey
+            )
         },
         backgroundColor = Color.Transparent,
         elevation = 0.dp
@@ -147,21 +163,21 @@ fun MeterItem(meter: MeterCard, clickHandler: () -> Unit) {
                 Text(
                     text = meter.name,
                     style = MaterialTheme.typography.h5,
-                    color = Blue
+                    color = MaterialTheme.colors.primary
                 )
                 Text(
                     text = buildAnnotatedString {
                         append("śr. ")
                         withStyle(
                             style = SpanStyle(
-                                color = DarkGrey,
+                                color = MaterialTheme.colors.secondary,
                                 fontSize = 28.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
                             append(meter.avg.toString())
                         }
-                        append(" km")
+                        append(" ${meter.unit}")
                     },
                     style = MaterialTheme.typography.subtitle2
                 )

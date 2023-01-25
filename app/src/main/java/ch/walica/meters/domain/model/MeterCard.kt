@@ -8,5 +8,6 @@ data class MeterCard(
     val color: Color = Red,
     val route: String,
     val avg: Int = 0,
+    val unit: String = "km",
     val img: Int,
 )

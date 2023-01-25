@@ -1,49 +1,42 @@
-package ch.walica.meters.presentation.bicycle_screen
+package ch.walica.meters.presentation.gas_screen
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
-import ch.walica.meters.presentation.bicycle_screen.components.MeterReadingItem
+import ch.walica.meters.presentation.gas_screen.components.MeterReadingItem
 import ch.walica.meters.presentation.common.CommonAction
-import ch.walica.meters.ui.theme.Blue
 import ch.walica.meters.ui.theme.DarkGrey
 import ch.walica.meters.ui.theme.LightBlue
 import ch.walica.meters.util.UiEvent
 
 @Composable
-fun BicycleScreen(
+fun GasScreen(
     modifier: Modifier = Modifier,
-    viewModel: BicycleViewModel = hiltViewModel(),
+    viewModel: GasViewModel = hiltViewModel(),
     onPopUpBackStack: () -> Unit,
     onNavigate: (UiEvent.Navigate) -> Unit,
 ) {
 
-    val title = stringResource(id = R.string.bicycle)
+    val title = stringResource(id = R.string.gas)
     val meterReadings = viewModel.meterReadings.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
@@ -102,8 +95,8 @@ fun BicycleScreen(
         Column(modifier = modifier
             .padding(paddingValues)
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             if (meterReadings.value.isNotEmpty()){
                 Card(
                     modifier = Modifier

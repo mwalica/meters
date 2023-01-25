@@ -11,15 +11,16 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
+    primary = LightBlue,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Grey,
+    surface = DarkGrey2
 )
 
 private val LightColorPalette = lightColors(
     primary = Blue,
     primaryVariant = Purple700,
-    secondary = Teal200,
+    secondary = DarkGrey,
     background = LightGrey
 
     /* Other default colors to override
@@ -45,7 +46,7 @@ fun MetersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
 
     SideEffect {
         systemUiController.setSystemBarsColor(
-            color = if(darkTheme) Color.LightGray else Color.Transparent,
+            color = if(darkTheme) DarkGrey2 else Color.Transparent,
             darkIcons = if(darkTheme) !useDarkIcons else useDarkIcons
         )
     }

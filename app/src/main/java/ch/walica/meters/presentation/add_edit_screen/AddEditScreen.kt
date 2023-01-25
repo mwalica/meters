@@ -2,14 +2,13 @@ package ch.walica.meters.presentation.add_edit_screen
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,7 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
-import ch.walica.meters.ui.theme.Blue
+import ch.walica.meters.ui.theme.DarkGrey
 import ch.walica.meters.ui.theme.Grey
 import ch.walica.meters.ui.theme.LightGrey
 import ch.walica.meters.util.UiEvent
@@ -74,11 +73,11 @@ fun AddEditScreen(
         snackbarHost = { snackBarHostState ->
 
             SnackbarHost(hostState = snackBarHostState) {
-                           Snackbar(
-                               snackbarData = it,
-                               backgroundColor = Color.White,
-                               elevation = 0.dp
-                           )
+                Snackbar(
+                    snackbarData = it,
+                    backgroundColor = Color.White,
+                    elevation = 0.dp
+                )
             }
         },
         topBar = {
@@ -119,8 +118,10 @@ fun AddEditScreen(
                             keyboardType = KeyboardType.Number
                         ),
                         colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.Transparent
-                        )
+                            backgroundColor = Color.Transparent,
+                            textColor = if(isSystemInDarkTheme()) LightGrey else DarkGrey
+                        ),
+
                     )
                     Text(
                         text = formattedDate,
@@ -132,12 +133,15 @@ fun AddEditScreen(
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.Transparent
                         ),
-                        border = BorderStroke(1.dp, LightGrey),
+                        border = BorderStroke(
+                            1.dp,
+                            if (isSystemInDarkTheme()) DarkGrey else LightGrey
+                        ),
                         contentPadding = PaddingValues(16.dp, 8.dp),
                         onClick = { dateDialogState.show() }) {
                         Text(
                             text = stringResource(R.string.select_date),
-                            color = Blue
+                            color = MaterialTheme.colors.primary
                         )
                     }
 
@@ -148,12 +152,15 @@ fun AddEditScreen(
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.Transparent
                         ),
-                        border = BorderStroke(1.dp, LightGrey),
+                        border = BorderStroke(
+                            1.dp,
+                            if (isSystemInDarkTheme()) DarkGrey else LightGrey
+                        ),
                         contentPadding = PaddingValues(16.dp, 8.dp),
                         onClick = { viewModel.onAction(AddEditAction.OnAddEditMeterReadingClick) }) {
                         Text(
                             text = stringResource(R.string.add_value),
-                            color = Blue
+                            color = MaterialTheme.colors.primary
                         )
                     }
                 }
@@ -185,7 +192,12 @@ fun AddEditScreen(
 @Composable
 fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = {
+            Text(
+                text = title,
+                color = if (isSystemInDarkTheme()) Color.LightGray else DarkGrey
+            )
+        },
         navigationIcon = {
             IconButton(onClick = { onBackArrow() }) {
                 Icon(
