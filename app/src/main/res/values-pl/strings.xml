@@ -13,10 +13,12 @@
     <string name="add_value">Dodaj wartość</string>
     <string name="meter_status">Stan licznika</string>
     <string name="distance">odległość</string>
+    <string name="usage">zużycie</string>
     <string name="select_date">Wybierz datę</string>
     <string name="cancel">Anuluj</string>
     <string name="select">Wybierz</string>
     <string name="text_field_error">Prosze wpisać wartość odczytu licznika</string>
     <string name="undo">Cofnij</string>
     <string name="delete_meter_reading_msg">Odczyt licznika usunięty</string>
+    <string name="close">Zamknij</string>
 </resources>

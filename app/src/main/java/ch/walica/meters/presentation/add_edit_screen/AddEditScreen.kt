@@ -1,5 +1,6 @@
 package ch.walica.meters.presentation.add_edit_screen
 
+import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,11 +11,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +49,7 @@ fun AddEditScreen(
     }
 
     val context = LocalContext.current
+    val activity = LocalContext.current as? Activity
 
 
 
@@ -75,7 +74,6 @@ fun AddEditScreen(
             SnackbarHost(hostState = snackBarHostState) {
                 Snackbar(
                     snackbarData = it,
-                    backgroundColor = Color.White,
                     elevation = 0.dp
                 )
             }
@@ -83,7 +81,8 @@ fun AddEditScreen(
         topBar = {
             ScreenAppBar(
                 title = viewModel.meterType ?: "error",
-                onBackArrow = { viewModel.onAction(AddEditAction.OnBackArrowClick) }
+                onBackArrow = { viewModel.onAction(AddEditAction.OnBackArrowClick) },
+                activity = activity
             )
         }
     ) { paddingValues ->
@@ -190,7 +189,10 @@ fun AddEditScreen(
 }
 
 @Composable
-fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
+fun ScreenAppBar(title: String, onBackArrow: () -> Unit, activity: Activity?) {
+    var showMenu by remember {
+        mutableStateOf(false)
+    }
     TopAppBar(
         title = {
             Text(
@@ -207,6 +209,22 @@ fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
             }
         },
         backgroundColor = Color.Transparent,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = { showMenu = !showMenu }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = "drop down menu"
+                )
+            }
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(onClick = { activity?.finish() }) {
+                    Text(
+                        text = stringResource(R.string.close),
+                        color = if(isSystemInDarkTheme()) LightGrey else DarkGrey
+                    )
+                }
+            }
+        }
     )
 }

@@ -49,7 +49,6 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold
     ),
     button = TextStyle(
-        color = DarkGrey,
         fontSize = 14.sp,
     )
     /* Other default text styles to override

@@ -1,5 +1,6 @@
 package ch.walica.meters.presentation.gas_screen
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +12,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +26,7 @@ import ch.walica.meters.presentation.gas_screen.components.MeterReadingItem
 import ch.walica.meters.presentation.common.CommonAction
 import ch.walica.meters.ui.theme.DarkGrey
 import ch.walica.meters.ui.theme.LightBlue
+import ch.walica.meters.ui.theme.LightGrey
 import ch.walica.meters.util.UiEvent
 
 @Composable
@@ -40,6 +41,8 @@ fun GasScreen(
     val meterReadings = viewModel.meterReadings.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
+
+    val activity = LocalContext.current as? Activity
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect() { event ->
@@ -66,7 +69,6 @@ fun GasScreen(
             SnackbarHost(hostState = snackBarHostState) {
                 Snackbar(
                     snackbarData = it,
-                    backgroundColor = Color.White,
                     elevation = 0.dp,
                 )
             }
@@ -74,7 +76,9 @@ fun GasScreen(
         topBar = {
             ScreenAppBar(
                 title = title,
-                onBackArrow = { viewModel.onAction(CommonAction.OnBackArrowClick) })
+                onBackArrow = { viewModel.onAction(CommonAction.OnBackArrowClick) },
+                activity = activity
+                )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -126,7 +130,10 @@ fun GasScreen(
 }
 
 @Composable
-fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
+fun ScreenAppBar(title: String, onBackArrow: () -> Unit, activity: Activity?) {
+    var showMenu by remember {
+        mutableStateOf(false)
+    }
     TopAppBar(
         title = { Text(text = title,
             color = if(isSystemInDarkTheme()) Color.LightGray else DarkGrey
@@ -140,7 +147,23 @@ fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
             }
         },
         backgroundColor = Color.Transparent,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = { showMenu = !showMenu }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = "drop down menu"
+                )
+            }
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(onClick = { activity?.finish() }) {
+                    Text(
+                        text = stringResource(R.string.close),
+                        color = if(isSystemInDarkTheme()) LightGrey else DarkGrey
+                    )
+                }
+            }
+        }
     )
 }
 

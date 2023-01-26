@@ -11,9 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ch.walica.meters.R
 import ch.walica.meters.domain.model.MeterReading
 import ch.walica.meters.ui.theme.*
@@ -47,27 +52,46 @@ fun MeterReadingItem(meterReading: MeterReading, usage: Int, onDblClick: () -> U
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         ) {
+            val superscript = SpanStyle(
+                baselineShift = BaselineShift.Superscript,
+                fontSize = 12.sp
+            )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = stringResource(R.string.meter_status),
                     style = MaterialTheme.typography.subtitle2
                 )
                 Text(
-                    text = "${meterReading.reading} m",
+                    text = buildAnnotatedString {
+                        append("${meterReading.reading} m")
+                        withStyle(
+                            style = superscript
+                        ) {
+                            append("3")
+                        }
+                    },
                     color = MaterialTheme.colors.primary,
-                    fontWeight = FontWeight.SemiBold
-                )
+                    fontWeight = FontWeight.SemiBold,
+
+                    )
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(bottom = 8.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.distance),
+                    text = stringResource(R.string.usage),
                     style = MaterialTheme.typography.subtitle2
                 )
                 Text(
-                    text = "$usage m",
+                    text = buildAnnotatedString {
+                        append("$usage m")
+                        withStyle(
+                            style = superscript
+                        ) {
+                            append("3")
+                        }
+                    },
                     color = MaterialTheme.colors.primary,
                     fontWeight = FontWeight.SemiBold
                 )

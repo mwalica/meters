@@ -12,11 +12,13 @@
     <string name="text_field_value">reading</string>
     <string name="add_value">Add read value</string>
     <string name="meter_status">Meter status</string>
-    <string name="distance">Distance</string>
+    <string name="distance">distance</string>
+    <string name="usage">usage</string>
     <string name="select_date">Select date</string>
     <string name="cancel">Cancel</string>
     <string name="select">Select</string>
     <string name="text_field_error">Please enter reading value</string>
     <string name="undo">Undo</string>
     <string name="delete_meter_reading_msg">Meter reading deleted</string>
+    <string name="close">Close</string>
 </resources>

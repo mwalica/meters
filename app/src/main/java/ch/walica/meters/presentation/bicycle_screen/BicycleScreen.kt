@@ -1,5 +1,6 @@
 package ch.walica.meters.presentation.bicycle_screen
 
+import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -15,10 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +32,7 @@ import ch.walica.meters.presentation.common.CommonAction
 import ch.walica.meters.ui.theme.Blue
 import ch.walica.meters.ui.theme.DarkGrey
 import ch.walica.meters.ui.theme.LightBlue
+import ch.walica.meters.ui.theme.LightGrey
 import ch.walica.meters.util.UiEvent
 
 @Composable
@@ -47,6 +47,7 @@ fun BicycleScreen(
     val meterReadings = viewModel.meterReadings.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
+    val activity = LocalContext.current as? Activity
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect() { event ->
@@ -73,7 +74,6 @@ fun BicycleScreen(
             SnackbarHost(hostState = snackBarHostState) {
                 Snackbar(
                     snackbarData = it,
-                    backgroundColor = Color.White,
                     elevation = 0.dp,
                 )
             }
@@ -81,7 +81,9 @@ fun BicycleScreen(
         topBar = {
             ScreenAppBar(
                 title = title,
-                onBackArrow = { viewModel.onAction(CommonAction.OnBackArrowClick) })
+                onBackArrow = { viewModel.onAction(CommonAction.OnBackArrowClick) },
+                activity = activity
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -99,12 +101,13 @@ fun BicycleScreen(
             }
         }
     ) { paddingValues ->
-        Column(modifier = modifier
-            .padding(paddingValues)
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-            if (meterReadings.value.isNotEmpty()){
+        Column(
+            modifier = modifier
+                .padding(paddingValues)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (meterReadings.value.isNotEmpty()) {
                 Card(
                     modifier = Modifier
                         .padding(8.dp)
@@ -133,11 +136,17 @@ fun BicycleScreen(
 }
 
 @Composable
-fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
+fun ScreenAppBar(title: String, onBackArrow: () -> Unit, activity: Activity?) {
+    var showMenu by remember {
+        mutableStateOf(false)
+    }
     TopAppBar(
-        title = { Text(text = title,
-            color = if(isSystemInDarkTheme()) Color.LightGray else DarkGrey
-        ) },
+        title = {
+            Text(
+                text = title,
+                color = if (isSystemInDarkTheme()) Color.LightGray else DarkGrey
+            )
+        },
         navigationIcon = {
             IconButton(onClick = { onBackArrow() }) {
                 Icon(
@@ -147,7 +156,23 @@ fun ScreenAppBar(title: String, onBackArrow: () -> Unit) {
             }
         },
         backgroundColor = Color.Transparent,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = { showMenu = !showMenu }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = "drop down menu"
+                )
+            }
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(onClick = { activity?.finish() }) {
+                    Text(
+                        text = stringResource(R.string.close),
+                        color = if(isSystemInDarkTheme()) LightGrey else DarkGrey
+                    )
+                }
+            }
+        }
     )
 }
 

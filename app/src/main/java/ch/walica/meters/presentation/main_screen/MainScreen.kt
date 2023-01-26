@@ -1,6 +1,6 @@
 package ch.walica.meters.presentation.main_screen
 
-import android.util.Log
+import android.app.Activity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,16 +8,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -46,6 +45,8 @@ fun MainScreen(
     val gasMeterReadings =
         viewModel.gasMeterReadings.collectAsState(initial = emptyList())
 
+    val activity = LocalContext.current as? Activity
+
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -58,10 +59,11 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            ScreenAppBar()
-        }
+            ScreenAppBar(activity)
+        },
 
-    ) { paddingValues ->
+
+        ) { paddingValues ->
 
         val averageBicycle = bicycleMeterReadings.value.mapIndexed { index, item ->
             if (index != bicycleMeterReadings.value.lastIndex) {
@@ -82,7 +84,7 @@ fun MainScreen(
         val cards = listOf<MeterCard>(
             MeterCard(
                 name = stringResource(id = R.string.car),
-                color= Green,
+                color = Green,
                 route = Screen.BicycleScreen.route,
                 img = R.drawable.car_300
             ),
@@ -127,16 +129,36 @@ fun MainScreen(
 }
 
 @Composable
-fun ScreenAppBar() {
+fun ScreenAppBar(activity: Activity?) {
+
+    var showMenu by remember {
+        mutableStateOf(false)
+    }
     TopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.main_screen_title),
-                color = if(isSystemInDarkTheme()) LightGray else DarkGrey
+                color = if (isSystemInDarkTheme()) LightGray else DarkGrey
             )
         },
         backgroundColor = Color.Transparent,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = { showMenu = !showMenu }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = "drop down menu"
+                )
+            }
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(onClick = { activity?.finish() }) {
+                    Text(
+                        text = stringResource(R.string.close),
+                    color = if(isSystemInDarkTheme()) LightGrey else DarkGrey
+                        )
+                }
+            }
+        }
     )
 }
 
