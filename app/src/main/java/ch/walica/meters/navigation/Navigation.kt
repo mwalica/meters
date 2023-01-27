@@ -10,6 +10,7 @@ import ch.walica.meters.presentation.add_edit_screen.AddEditScreen
 import ch.walica.meters.presentation.bicycle_screen.BicycleScreen
 import ch.walica.meters.presentation.gas_screen.GasScreen
 import ch.walica.meters.presentation.main_screen.MainScreen
+import ch.walica.meters.presentation.water_screen.WaterScreen
 
 @Composable
 fun Navigation() {
@@ -31,6 +32,14 @@ fun Navigation() {
 
         composable(route = Screen.GasScreen.route) {
             GasScreen(
+                onPopUpBackStack = { navController.popBackStack() },
+                onNavigate = {
+                    navController.navigate(it.route)
+                })
+        }
+
+        composable(route = Screen.WaterScreen.route) {
+            WaterScreen(
                 onPopUpBackStack = { navController.popBackStack() },
                 onNavigate = {
                     navController.navigate(it.route)

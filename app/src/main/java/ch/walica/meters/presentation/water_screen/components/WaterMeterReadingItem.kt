@@ -1,4 +1,4 @@
-package ch.walica.meters.presentation.gas_screen.components
+package ch.walica.meters.presentation.water_screen.components
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -27,7 +27,7 @@ import java.time.format.FormatStyle
 
 
 @Composable
-fun MeterReadingItem(meterReading: MeterReading, usage: Int, onDblClick: () -> Unit) {
+fun WaterMeterReadingItem(meterReading: MeterReading, usage: Int, onDblClick: () -> Unit) {
     Column(modifier = Modifier
         .padding(8.dp)
         .pointerInput(Unit) {

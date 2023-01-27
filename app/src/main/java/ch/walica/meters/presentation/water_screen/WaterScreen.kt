@@ -1,4 +1,4 @@
-package ch.walica.meters.presentation.gas_screen
+package ch.walica.meters.presentation.water_screen
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -22,22 +22,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ch.walica.meters.R
-import ch.walica.meters.presentation.gas_screen.components.GasMeterReadingItem
 import ch.walica.meters.presentation.common.CommonAction
+import ch.walica.meters.presentation.water_screen.components.WaterMeterReadingItem
 import ch.walica.meters.ui.theme.DarkGrey
 import ch.walica.meters.ui.theme.LightBlue
 import ch.walica.meters.ui.theme.LightGrey
 import ch.walica.meters.util.UiEvent
 
 @Composable
-fun GasScreen(
+fun WaterScreen(
     modifier: Modifier = Modifier,
-    viewModel: GasViewModel = hiltViewModel(),
+    viewModel: WaterViewModel = hiltViewModel(),
     onPopUpBackStack: () -> Unit,
     onNavigate: (UiEvent.Navigate) -> Unit,
 ) {
 
-    val title = stringResource(id = R.string.gas)
+    val title = stringResource(id = R.string.water)
     val meterReadings = viewModel.meterReadings.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
@@ -78,7 +78,7 @@ fun GasScreen(
                 title = title,
                 onBackArrow = { viewModel.onAction(CommonAction.OnBackArrowClick) },
                 activity = activity
-                )
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -113,7 +113,7 @@ fun GasScreen(
                         itemsIndexed(meterReadings.value) { index, meterReading ->
                             val usage =
                                 if (index != meterReadings.value.lastIndex) meterReadings.value[index].reading - meterReadings.value[index + 1].reading else meterReadings.value[index].reading
-                            GasMeterReadingItem(meterReading = meterReading, usage) {
+                            WaterMeterReadingItem(meterReading = meterReading, usage) {
                                 viewModel.onAction(
                                     CommonAction.OnDeleteMeterReadingClick(
                                         meterReading
@@ -166,4 +166,3 @@ fun ScreenAppBar(title: String, onBackArrow: () -> Unit, activity: Activity?) {
         }
     )
 }
-

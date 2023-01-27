@@ -45,6 +45,9 @@ fun MainScreen(
     val gasMeterReadings =
         viewModel.gasMeterReadings.collectAsState(initial = emptyList())
 
+    val waterMeterReadings =
+        viewModel.waterMeterReadings.collectAsState(initial = emptyList())
+
     val activity = LocalContext.current as? Activity
 
 
@@ -81,6 +84,14 @@ fun MainScreen(
             }
         }.average()
 
+        val averageWater = waterMeterReadings.value.mapIndexed { index, item ->
+            if (index != waterMeterReadings.value.lastIndex) {
+                item.reading - waterMeterReadings.value[index + 1].reading
+            } else {
+                item.reading
+            }
+        }.average()
+
         val cards = listOf<MeterCard>(
             MeterCard(
                 name = stringResource(id = R.string.car),
@@ -97,7 +108,9 @@ fun MainScreen(
             MeterCard(
                 name = stringResource(R.string.water),
                 color = LightBlue,
-                route = Screen.BicycleScreen.route,
+                route = Screen.WaterScreen.route,
+                avg = if (averageWater.isNaN()) 0 else averageWater.roundToInt(),
+                unit = "m3",
                 img = R.drawable.water_drop_300
             ),
             MeterCard(
@@ -154,8 +167,8 @@ fun ScreenAppBar(activity: Activity?) {
                 DropdownMenuItem(onClick = { activity?.finish() }) {
                     Text(
                         text = stringResource(R.string.close),
-                    color = if(isSystemInDarkTheme()) LightGrey else DarkGrey
-                        )
+                        color = if (isSystemInDarkTheme()) LightGrey else DarkGrey
+                    )
                 }
             }
         }
