@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ch.walica.meters.presentation.add_edit_screen.AddEditScreen
 import ch.walica.meters.presentation.bicycle_screen.BicycleScreen
+import ch.walica.meters.presentation.car_screen.CarScreen
 import ch.walica.meters.presentation.gas_screen.GasScreen
 import ch.walica.meters.presentation.main_screen.MainScreen
 import ch.walica.meters.presentation.water_screen.WaterScreen
@@ -40,6 +41,14 @@ fun Navigation() {
 
         composable(route = Screen.WaterScreen.route) {
             WaterScreen(
+                onPopUpBackStack = { navController.popBackStack() },
+                onNavigate = {
+                    navController.navigate(it.route)
+                })
+        }
+
+        composable(route = Screen.CarScreen.route) {
+            CarScreen(
                 onPopUpBackStack = { navController.popBackStack() },
                 onNavigate = {
                     navController.navigate(it.route)

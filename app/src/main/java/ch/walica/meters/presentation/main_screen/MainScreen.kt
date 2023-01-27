@@ -48,6 +48,9 @@ fun MainScreen(
     val waterMeterReadings =
         viewModel.waterMeterReadings.collectAsState(initial = emptyList())
 
+    val carMeterReadings =
+        viewModel.carMeterReadings.collectAsState(initial = emptyList())
+
     val activity = LocalContext.current as? Activity
 
 
@@ -92,11 +95,20 @@ fun MainScreen(
             }
         }.average()
 
+        val averageCar = carMeterReadings.value.mapIndexed { index, item ->
+            if (index != carMeterReadings.value.lastIndex) {
+                item.reading - carMeterReadings.value[index + 1].reading
+            } else {
+                item.reading
+            }
+        }.average()
+
         val cards = listOf<MeterCard>(
             MeterCard(
                 name = stringResource(id = R.string.car),
                 color = Green,
-                route = Screen.BicycleScreen.route,
+                route = Screen.CarScreen.route,
+                avg = if (averageCar.isNaN()) 0 else averageCar.roundToInt(),
                 img = R.drawable.car_300
             ),
             MeterCard(

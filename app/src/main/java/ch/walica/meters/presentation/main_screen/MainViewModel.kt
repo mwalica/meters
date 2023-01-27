@@ -20,6 +20,7 @@ class MainViewModel @Inject constructor(
     val bicycleMeterReadings = getMetersReadingFromType("Rower")
     val gasMeterReadings = getMetersReadingFromType("Gaz")
     val waterMeterReadings = getMetersReadingFromType("Woda")
+    val carMeterReadings = getMetersReadingFromType("Auto")
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
