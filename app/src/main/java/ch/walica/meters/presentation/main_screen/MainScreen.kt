@@ -51,6 +51,9 @@ fun MainScreen(
     val carMeterReadings =
         viewModel.carMeterReadings.collectAsState(initial = emptyList())
 
+    val electricityMeterReadings =
+        viewModel.electricityMeterReadings.collectAsState(initial = emptyList())
+
     val activity = LocalContext.current as? Activity
 
 
@@ -103,6 +106,14 @@ fun MainScreen(
             }
         }.average()
 
+        val averageElectricity = electricityMeterReadings.value.mapIndexed { index, item ->
+            if (index != electricityMeterReadings.value.lastIndex) {
+                item.reading - electricityMeterReadings.value[index + 1].reading
+            } else {
+                item.reading
+            }
+        }.average()
+
         val cards = listOf<MeterCard>(
             MeterCard(
                 name = stringResource(id = R.string.car),
@@ -136,7 +147,9 @@ fun MainScreen(
             MeterCard(
                 name = stringResource(R.string.electricity),
                 color = Violet,
-                route = Screen.BicycleScreen.route,
+                route = Screen.ElectricityScreen.route,
+                avg = if (averageElectricity.isNaN()) 0 else averageElectricity.roundToInt(),
+                unit = "kWh",
                 img = R.drawable.electrical_services_300
             ),
         )
