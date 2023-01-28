@@ -78,41 +78,41 @@ fun MainScreen(
             if (index != bicycleMeterReadings.value.lastIndex) {
                 item.reading - bicycleMeterReadings.value[index + 1].reading
             } else {
-                item.reading
+                -1
             }
-        }.average()
+        }.slice(0 until bicycleMeterReadings.value.lastIndex).average()
 
         val averageGas = gasMeterReadings.value.mapIndexed { index, item ->
             if (index != gasMeterReadings.value.lastIndex) {
                 item.reading - gasMeterReadings.value[index + 1].reading
             } else {
-                item.reading
+                -1
             }
-        }.average()
+        }.slice(0 until gasMeterReadings.value.lastIndex).average()
 
         val averageWater = waterMeterReadings.value.mapIndexed { index, item ->
             if (index != waterMeterReadings.value.lastIndex) {
                 item.reading - waterMeterReadings.value[index + 1].reading
             } else {
-                item.reading
+                -1
             }
-        }.average()
+        }.slice(0 until waterMeterReadings.value.lastIndex).average()
 
         val averageCar = carMeterReadings.value.mapIndexed { index, item ->
             if (index != carMeterReadings.value.lastIndex) {
                 item.reading - carMeterReadings.value[index + 1].reading
             } else {
-                item.reading
+                -1
             }
-        }.average()
+        }.slice(0 until carMeterReadings.value.lastIndex).average()
 
         val averageElectricity = electricityMeterReadings.value.mapIndexed { index, item ->
             if (index != electricityMeterReadings.value.lastIndex) {
                 item.reading - electricityMeterReadings.value[index + 1].reading
             } else {
-                item.reading
+                -1
             }
-        }.average()
+        }.slice(0 until electricityMeterReadings.value.lastIndex).average()
 
         val cards = listOf<MeterCard>(
             MeterCard(
